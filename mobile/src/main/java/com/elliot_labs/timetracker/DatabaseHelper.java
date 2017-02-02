@@ -1,5 +1,6 @@
 package com.elliot_labs.timetracker;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -33,7 +34,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
@@ -52,4 +52,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // What needs to happen when a DB upgrade happens. Place code here if needed.
     }
+
+    public boolean addDataCategories(String name, Integer parent){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(COL_NAME, name);
+        if (parent != null){
+            if (parent > 0) {
+                contentValues.put(COL_PARENT, parent);
+            }
+        }
+
+        long errorCheck = db.insert(TABLE_CATEGORIES, null,contentValues);
+
+        if (errorCheck == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

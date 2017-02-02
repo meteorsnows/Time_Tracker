@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/nameCategory"
         android:layout_centerHorizontal="true" />
 
     <Spinner
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView6"
-        android:layout_above="@+id/editText2"
+        android:layout_above="@+id/nameCategory"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -69,8 +69,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/nameCategory"
+        android:hint="Name Category"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:hint="Name Category" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
