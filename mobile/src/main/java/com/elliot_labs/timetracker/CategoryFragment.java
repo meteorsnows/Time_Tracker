@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -23,7 +24,6 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
     EditText nameCategory;
     Spinner parentSelector;
-    TextView saveHeaderText;
     TextView categoryListText;
     DatabaseHelper timeDatabase;
 
@@ -40,7 +40,6 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
         nameCategory = (EditText) v.findViewById(R.id.nameCategory);
         parentSelector = (Spinner) v.findViewById(R.id.parentSelector);
-        saveHeaderText = (TextView) v.findViewById(R.id.textView6);
         categoryListText = (TextView) v.findViewById(R.id.listOfCategories);
         timeDatabase = new DatabaseHelper(getActivity());
 
@@ -61,9 +60,9 @@ public class CategoryFragment extends Fragment implements OnClickListener {
             case R.id.saveCategoryButton:
                 boolean errorCheck = timeDatabase.addDataCategories(nameCategory.getText().toString(), null);
                 if (errorCheck){
-                    saveHeaderText.setText("Saved!");
+                    Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
                 } else {
-                    saveHeaderText.setText("Something went wrong :-(");
+                    Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
                 }
                 break;
 
