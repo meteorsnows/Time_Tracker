@@ -57,10 +57,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COL_NAME, name);
+        contentValues.put(COL_NAME.split(" ", 0)[0], name);
         if (parent != null){
             if (parent > 0) {
-                contentValues.put(COL_PARENT, parent);
+                contentValues.put(COL_PARENT.split(" ", 0)[0], parent);
             }
         }
 
