@@ -1,8 +1,10 @@
 package com.elliot_labs.timetracker;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +24,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     EditText nameCategory;
     Spinner parentSelector;
     TextView saveHeaderText;
+    TextView categoryListText;
     DatabaseHelper timeDatabase;
 
     public CategoryFragment() {
@@ -38,11 +41,16 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         nameCategory = (EditText) v.findViewById(R.id.nameCategory);
         parentSelector = (Spinner) v.findViewById(R.id.parentSelector);
         saveHeaderText = (TextView) v.findViewById(R.id.textView6);
+        categoryListText = (TextView) v.findViewById(R.id.listOfCategories);
         timeDatabase = new DatabaseHelper(getActivity());
 
+        categoryListText.setMovementMethod(new ScrollingMovementMethod());
+
         Button saveCategoryButton = (Button) v.findViewById(R.id.saveCategoryButton);
+        Button refreshListButton = (Button) v.findViewById(R.id.refreshListButton);
 
         saveCategoryButton.setOnClickListener(this);
+        refreshListButton.setOnClickListener(this);
 
         return v;
     }
@@ -58,6 +66,22 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                     saveHeaderText.setText("Something went wrong :-(");
                 }
                 break;
+
+            case R.id.refreshListButton:
+                Cursor categories = timeDatabase.listCategories();
+                if (categories.getCount() == 0) {
+                    categoryListText.setText("Nothing to show here...");
+                    break;
+                } else {
+                    StringBuffer buffer = new StringBuffer();
+                    while(categories.moveToNext()) {
+                        buffer.append("ID :" + categories.getString(0) + "\n" );
+                        buffer.append("Name :" + categories.getString(1) + "\n" );
+                        buffer.append("Parent :" + categories.getString(2) + "\n\n" );
+
+                    }
+                    categoryListText.setText(buffer.toString());
+                }
         }
     }
 }
