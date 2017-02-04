@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -70,23 +71,33 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 break;
 
             case R.id.refreshListButton:
-                SparseArray<String> categories = timeDatabase.listCategories();
+                SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+                SparseArray<String> categoryParents = timeDatabase.getColumnData("categories", 2);
+                updateDeleteSelectorItems();
 
-                if (categories.size() == 0) {
+                if (categoryNames.size() == 0) {
                     categoryListText.setText("Nothing to show here...");
                     break;
                 } else {
                     StringBuffer buffer = new StringBuffer();
+                    String parent = "";
 
-                    for(int i = 0; i < categories.size(); i++) {
-                        int key = categories.keyAt(i);
+                    for(int i = 0; i < categoryNames.size(); i++) {
+                        int key = categoryNames.keyAt(i);
                         // get the object by the key.
-                        String name = categories.get(key);
+                        String name = categoryNames.get(key);
                         Integer keyInteger = key;
+                        String parentData = categoryParents.get(key);
 
-                        buffer.append("ID :" + keyInteger.toString() + "\n" );
-                        buffer.append("Name :" + name + "\n\n" );
-                        //buffer.append("Parent :" + parent.toString());
+                        if (parentData == null) {
+                            parent = "None";
+                        } else {
+                            parent = parentData;
+                        }
+
+                        buffer.append("ID: " + keyInteger.toString() + "\n" );
+                        buffer.append("Name: " + name + "\n" );
+                        buffer.append("Parent: " + parent + "\n\n");
                     }
                     categoryListText.setText(buffer.toString());
                 }
@@ -97,9 +108,10 @@ public class CategoryFragment extends Fragment implements OnClickListener {
     }
 
     public void updateDeleteSelectorItems(){
-        SparseArray<String> categories = timeDatabase.listCategories();
+        //SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
 
+        //ArrayAdapter<SparseArray> spinnerAdapter = new ArrayAdapter<SparseArray>(this, android.R.layout.simple_spinner_dropdown_item, categoryNames)
 
-
+        //deleteSelector.setAdapter(spinnerAdapter);
     }
 }

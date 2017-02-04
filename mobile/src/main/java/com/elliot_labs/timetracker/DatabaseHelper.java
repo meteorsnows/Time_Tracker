@@ -75,9 +75,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    SparseArray<String> listCategories() {
+    SparseArray<String> getColumnData(String tableName, Integer columnID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor categories = db.rawQuery("select * from " + TABLE_CATEGORIES, null);
+        Cursor categories = db.rawQuery("select * from " + tableName, null);
 
         SparseArray<String> mappedData = new SparseArray<>();
 
@@ -85,11 +85,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
             //do something here if no data available
         } else {
             categories.moveToFirst();
-
             boolean categoryDataAvailable = true;
 
             while(categoryDataAvailable) {
-                mappedData.put(categories.getInt(0), categories.getString(1));
+                mappedData.put(categories.getInt(0), categories.getString(columnID));
 
                 if (categories.moveToNext()){
                     categoryDataAvailable = true;
@@ -97,9 +96,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                     categoryDataAvailable = false;
                 }
             }
-            // do something here
         }
-
         return mappedData;
     }
 
