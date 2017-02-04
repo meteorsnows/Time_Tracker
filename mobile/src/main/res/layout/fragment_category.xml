@@ -5,7 +5,7 @@
     tools:context="com.elliot_labs.timetracker.CategoryFragment">
 
     <TextView
-        android:text="Sub Category of:"
+        android:text="Delete Entry:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
@@ -15,7 +15,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/parentSelector"
+        android:id="@+id/deleteSelector"
         android:layout_below="@+id/textView7"
         android:layout_centerHorizontal="true" />
 
@@ -85,5 +85,13 @@
             android:gravity="center"
             android:layout_marginEnd="12dp" />
     </ScrollView>
+
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/saveCategoryButton"
+        android:layout_alignParentStart="true"
+        android:id="@+id/deleteButton" />
 
 </RelativeLayout>

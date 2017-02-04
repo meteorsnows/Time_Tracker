@@ -1,10 +1,10 @@
 package com.elliot_labs.timetracker;
 
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class CategoryFragment extends Fragment implements OnClickListener {
 
     EditText nameCategory;
-    Spinner parentSelector;
+    Spinner deleteSelector;
     TextView categoryListText;
     DatabaseHelper timeDatabase;
 
@@ -39,7 +39,7 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         nameCategory = (EditText) v.findViewById(R.id.nameCategory);
-        parentSelector = (Spinner) v.findViewById(R.id.parentSelector);
+        deleteSelector = (Spinner) v.findViewById(R.id.deleteSelector);
         categoryListText = (TextView) v.findViewById(R.id.listOfCategories);
         timeDatabase = new DatabaseHelper(getActivity());
 
@@ -47,9 +47,11 @@ public class CategoryFragment extends Fragment implements OnClickListener {
 
         Button saveCategoryButton = (Button) v.findViewById(R.id.saveCategoryButton);
         Button refreshListButton = (Button) v.findViewById(R.id.refreshListButton);
+        Button deleteCategoryButton = (Button) v.findViewById(R.id.deleteButton);
 
         saveCategoryButton.setOnClickListener(this);
         refreshListButton.setOnClickListener(this);
+        deleteCategoryButton.setOnClickListener(this);
 
         return v;
     }
@@ -61,26 +63,43 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 boolean errorCheck = timeDatabase.addDataCategories(nameCategory.getText().toString(), null);
                 if (errorCheck){
                     Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
+                    nameCategory.setText("");
                 } else {
                     Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
                 }
                 break;
 
             case R.id.refreshListButton:
-                Cursor categories = timeDatabase.listCategories();
-                if (categories.getCount() == 0) {
+                SparseArray<String> categories = timeDatabase.listCategories();
+
+                if (categories.size() == 0) {
                     categoryListText.setText("Nothing to show here...");
                     break;
                 } else {
                     StringBuffer buffer = new StringBuffer();
-                    while(categories.moveToNext()) {
-                        buffer.append("ID :" + categories.getString(0) + "\n" );
-                        buffer.append("Name :" + categories.getString(1) + "\n" );
-                        buffer.append("Parent :" + categories.getString(2) + "\n\n" );
 
+                    for(int i = 0; i < categories.size(); i++) {
+                        int key = categories.keyAt(i);
+                        // get the object by the key.
+                        String name = categories.get(key);
+                        Integer keyInteger = key;
+
+                        buffer.append("ID :" + keyInteger.toString() + "\n" );
+                        buffer.append("Name :" + name + "\n\n" );
+                        //buffer.append("Parent :" + parent.toString());
                     }
                     categoryListText.setText(buffer.toString());
                 }
+                break;
+            case R.id.deleteButton:
+
         }
+    }
+
+    public void updateDeleteSelectorItems(){
+        SparseArray<String> categories = timeDatabase.listCategories();
+
+
+
     }
 }

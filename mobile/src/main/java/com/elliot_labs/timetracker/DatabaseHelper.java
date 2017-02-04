@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.SparseArray;
 
 /**
  * Creates database.
@@ -74,10 +75,42 @@ class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    Cursor listCategories() {
+    SparseArray<String> listCategories() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor result = db.rawQuery("select * from " + TABLE_CATEGORIES, null);
-        return result;
+        Cursor categories = db.rawQuery("select * from " + TABLE_CATEGORIES, null);
+
+        SparseArray<String> mappedData = new SparseArray<>();
+
+        if (!categories.moveToFirst()) {
+            //do something here if no data available
+        } else {
+            categories.moveToFirst();
+
+            boolean categoryDataAvailable = true;
+
+            while(categoryDataAvailable) {
+                mappedData.put(categories.getInt(0), categories.getString(1));
+
+                if (categories.moveToNext()){
+                    categoryDataAvailable = true;
+                } else {
+                    categoryDataAvailable = false;
+                }
+            }
+            // do something here
+        }
+
+        return mappedData;
+    }
+
+    public Boolean deleteByID(String table_name, String[] ID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Integer errorCheck = db.delete(table_name, COL_ID.split(" ", 0)[0] + " = ?", ID);
+        if (errorCheck == 1){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
