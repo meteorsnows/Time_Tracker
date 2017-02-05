@@ -100,14 +100,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
         return mappedData;
     }
 
-    public Boolean deleteByID(String table_name, String[] ID){
+    int deleteByID(String table_name, String ID){
         SQLiteDatabase db = this.getWritableDatabase();
-        Integer errorCheck = db.delete(table_name, COL_ID.split(" ", 0)[0] + " = ?", ID);
-        if (errorCheck == 1){
-            return true;
-        } else {
-            return false;
-        }
+        return db.delete(table_name, "ID = ?", new String[] {ID});
     }
 
 }

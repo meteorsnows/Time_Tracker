@@ -54,6 +54,8 @@ public class CategoryFragment extends Fragment implements OnClickListener {
         refreshListButton.setOnClickListener(this);
         deleteCategoryButton.setOnClickListener(this);
 
+        updateDeleteSelectorItems();
+
         return v;
     }
 
@@ -103,9 +105,17 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.deleteButton:
-                String selectedId = Integer.toString(deleteSelector.getSelectedItemPosition());
+                String selectedId = Long.toString(deleteSelector.getSelectedItemId());
 
-                Toast.makeText(getActivity(), selectedId, Toast.LENGTH_LONG).show();
+                if (timeDatabase.deleteByID("categories", selectedId) == 1) {
+                    Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Something went wrong :-(", Toast.LENGTH_LONG).show();
+                }
+
+                updateDeleteSelectorItems();
+
+                break;
         }
     }
 
