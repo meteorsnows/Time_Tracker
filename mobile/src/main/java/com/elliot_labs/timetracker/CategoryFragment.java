@@ -103,15 +103,15 @@ public class CategoryFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.deleteButton:
+                String selectedId = Integer.toString(deleteSelector.getSelectedItemPosition());
 
+                Toast.makeText(getActivity(), selectedId, Toast.LENGTH_LONG).show();
         }
     }
 
     public void updateDeleteSelectorItems(){
-        //SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
-
-        //ArrayAdapter<SparseArray> spinnerAdapter = new ArrayAdapter<SparseArray>(this, android.R.layout.simple_spinner_dropdown_item, categoryNames)
-
-        //deleteSelector.setAdapter(spinnerAdapter);
+        SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+        SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
+        deleteSelector.setAdapter(spinnerAdapter);
     }
 }
