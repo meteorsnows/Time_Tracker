@@ -19,14 +19,14 @@
         android:ems="10"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/NewCategoryEditText"
+        android:id="@+id/newCategoryEditText"
         android:hint="Name of category" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/parentEditSpinner"
-        android:layout_below="@+id/NewCategoryEditText"
+        android:layout_below="@+id/newCategoryEditText"
         android:layout_alignParentStart="true"
         android:layout_marginTop="54dp" />
 
