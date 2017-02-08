@@ -3,4 +3,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_description">An app to track and categorize your time. Works on Android Wear.</string>
+
 </resources>
