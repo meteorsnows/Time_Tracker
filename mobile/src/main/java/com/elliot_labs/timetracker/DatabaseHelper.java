@@ -19,10 +19,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_ID = "ID INTEGER PRIMARY KEY AUTOINCREMENT";
 
     private static final String TABLE_SAVED = "saved_times";
-    private static final String COL_DATE = "date INTEGER";
-    private static final String COL_START_TIME = "start_time INTEGER";
-    private static final String COL_STOP_TiIME = "stop_time INTEGER";
-    private static final String COL_CATEGORY = "category TEXT";
+    private static final String COL_DATE = "initial_date INTEGER";
+    private static final String COL_TOTAL = "total_time INTEGER";
+    private static final String COL_CATEGORY = "category INTEGER";
 
     private static final String TABLE_CATEGORIES = "categories";
     private static final String COL_NAME = "name TEXT";
@@ -30,6 +29,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TABLE_WORKING = "in_progress";
     private static final String COL_START = "start_time INTEGER";
+    private static final String COL_CURRENT_TOTAL = "current_total INTEGER";
     private static final String COL_WORKING_CATEGORY = "category TEXT";
 
 
@@ -40,14 +40,22 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_CATEGORIES + " (" + COL_ID + "," + COL_NAME +
-                "," + COL_PARENT + ")");
-        db.execSQL("create table " + TABLE_SAVED + " (" + COL_ID + "," + COL_DATE + ","
-                + COL_START_TIME + "," + COL_STOP_TiIME + "," + COL_CATEGORY + ")");
-        db.execSQL("create table " + TABLE_WORKING + " (" + COL_ID + "," + COL_START + ","
+        db.execSQL("create table " + TABLE_CATEGORIES + " ("
+                + COL_ID + ","
+                + COL_NAME + ","
+                + COL_PARENT + ")");
+        db.execSQL("create table " + TABLE_SAVED + " ("
+                + COL_ID + ","
+                + COL_DATE + ","
+                + COL_TOTAL + ","
+                + COL_CATEGORY + ")");
+        db.execSQL("create table " + TABLE_WORKING + " ("
+                + COL_ID + ","
+                + COL_START + ","
+                + COL_CURRENT_TOTAL + ","
                 + COL_WORKING_CATEGORY + ")");
 
-        // Creates teh tables and collums in the DB for data storage
+        // Creates teh tables and columns in the DB for data storage
     }
 
     @Override
@@ -63,6 +71,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
         if (parent != null){
             if (parent > 0) {
                 contentValues.put(COL_PARENT.split(" ", 0)[0], parent);
+            } else {
+                contentValues.put(COL_PARENT.split(" ", 0)[0], 0);
             }
         }
 
@@ -100,16 +110,18 @@ class DatabaseHelper extends SQLiteOpenHelper {
         return mappedData;
     }
 
-    int deleteByID(String table_name, String ID){
+    int deleteByID(String table_name, Integer ID){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table_name, "ID = ?", new String[] {ID});
+        return db.delete(table_name, "ID = ?", new String[] {ID.toString()});
     }
 
-    boolean updateDataByID(String table_name, String ID, String data) {
+    boolean updateDataByID(String table_name, Integer ID, String col_name, String cell_data) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        //db.update(table_name, contentValues, "")
+        contentValues.put(col_name, cell_data);
+
+        db.update(table_name, contentValues, "ID = ?",new String[]{ID.toString()} );
         return true;
 
     }

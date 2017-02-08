@@ -42,7 +42,8 @@ public class CategoryDeleteFragment extends Fragment implements OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.deleteButton:
-                String selectedId = Long.toString(deleteSpinner.getSelectedItemId());
+                Long selectedIDLong = deleteSpinner.getSelectedItemId();
+                Integer selectedId = selectedIDLong.intValue();
 
                 if (timeDatabase.deleteByID("categories", selectedId) == 1) {
                     Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();

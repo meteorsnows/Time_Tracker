@@ -45,7 +45,10 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.createButton:
-                boolean errorCheck = timeDatabase.addDataCategories(newCategoryEditText.getText().toString(), null);
+
+                Integer parentID = Long.valueOf(parentEditSpinner.getSelectedItemId()).intValue();
+                Toast.makeText(getActivity(), parentID, Toast.LENGTH_LONG).show();
+                boolean errorCheck = timeDatabase.addDataCategories(newCategoryEditText.getText().toString(), parentID);
 
                 if (errorCheck){
                     Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
@@ -53,6 +56,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
                 } else {
                     Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
                 }
+                updateParentSelectorItems();
                 break;
 
         }
@@ -61,7 +65,9 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
     public void updateParentSelectorItems(){
         SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+        categoryNames.put(0, "None");
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         parentEditSpinner.setAdapter(spinnerAdapter);
+        parentEditSpinner.setSelection(0);
     }
 }
