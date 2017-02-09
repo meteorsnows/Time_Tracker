@@ -25,7 +25,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/parentEditSpinner"
+        android:id="@+id/parentAddSpinner"
         android:layout_below="@+id/newCategoryEditText"
         android:layout_alignParentStart="true"
         android:layout_marginTop="54dp" />
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/AddCategorySubcategoryText"
-        android:layout_alignBottom="@+id/parentEditSpinner"
+        android:layout_alignBottom="@+id/parentAddSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="26dp" />
 
@@ -54,6 +54,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addCategoryOptionalText"
-        android:layout_below="@+id/parentEditSpinner"
+        android:layout_below="@+id/parentAddSpinner"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

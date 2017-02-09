@@ -20,7 +20,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
     DatabaseHelper timeDatabase;
     EditText newCategoryEditText;
-    Spinner parentEditSpinner;
+    Spinner parentAddSpinner;
     Button createButton;
 
     @Override
@@ -31,7 +31,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
         newCategoryEditText = (EditText) v.findViewById(R.id.newCategoryEditText);
         createButton = (Button) v.findViewById(R.id.createButton);
-        parentEditSpinner = (Spinner) v.findViewById(R.id.parentEditSpinner);
+        parentAddSpinner = (Spinner) v.findViewById(R.id.parentAddSpinner);
         timeDatabase = new DatabaseHelper(getActivity());
 
         createButton.setOnClickListener(this);
@@ -45,10 +45,9 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.createButton:
-
-                Integer parentID = Long.valueOf(parentEditSpinner.getSelectedItemId()).intValue();
-                Toast.makeText(getActivity(), parentID, Toast.LENGTH_LONG).show();
-                boolean errorCheck = timeDatabase.addDataCategories(newCategoryEditText.getText().toString(), parentID);
+                Integer parentID = Long.valueOf(parentAddSpinner.getSelectedItemId()).intValue();
+                String nameOfCategory = newCategoryEditText.getText().toString();
+                boolean errorCheck = timeDatabase.addDataCategories(nameOfCategory, parentID);
 
                 if (errorCheck){
                     Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
@@ -58,7 +57,6 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
                 }
                 updateParentSelectorItems();
                 break;
-
         }
     }
 
@@ -67,7 +65,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
         SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
         categoryNames.put(0, "None");
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
-        parentEditSpinner.setAdapter(spinnerAdapter);
-        parentEditSpinner.setSelection(0);
+        parentAddSpinner.setAdapter(spinnerAdapter);
+        parentAddSpinner.setSelection(0);
     }
 }

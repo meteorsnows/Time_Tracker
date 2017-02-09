@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * Created by Elliot on 2/5/2017.
@@ -74,6 +75,12 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
                 boolean errorCheckName = timeDatabase.updateDataByID("categories", editSelectedId, "name", editCategoryEditText.getText().toString());
                 boolean errorCheckParent = timeDatabase.updateDataByID("categories", editSelectedId, "parent", parent_data.toString());
 
+                if (errorCheckName && errorCheckParent){
+                    Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
+                }
+
                 updateEditSpinnerItems();
                 updateParentSpinnerItems();
                 break;
@@ -95,11 +102,15 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 
         SparseArray<String> parentNames = timeDatabase.getColumnData("categories", 2);
 
-        Long parentLong = parentEditSpinner.getSelectedItemId();
-        Integer parent_data = parentLong != null ? parentLong.intValue() : null;
+        Integer parent_data;
+        Long parentLong;
 
-        Integer catParent = Integer.parseInt(parentNames.get(parent_data));
-        parentEditSpinner.setSelection(catParent);
-
+        if(editSpinner != null && editSpinner.getSelectedItem() !=null ) {
+            parentLong = editSpinner.getSelectedItemId();
+            parent_data = parentLong.intValue();
+            parentEditSpinner.setSelection(Integer.parseInt(parentNames.get(parent_data)));
+        } else  {
+            parentEditSpinner.setSelection(0);
+        }
     }
 }
