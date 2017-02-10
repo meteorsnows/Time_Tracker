@@ -3,14 +3,48 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--<TextView-->
+        <!--android:text="Change Parent Category:"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/editCategoryEditText"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:id="@+id/editCatParentText" />-->
+
+    <!--<Spinner-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/editCatParentText"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:id="@+id/parentEditSpinner" />-->
+
+    <Button
+        android:text="Save Changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editCategoryEditText"
+        android:layout_alignParentEnd="true" />
+
     <TextView
         android:text="Edit Existing Category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editCategoryHeder"
+        android:textSize="17sp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="17sp" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="All Changes are optional."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editCatOptionalReminder"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/editCategoryHeder"
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -23,9 +57,9 @@
         android:text="Select Category to edit:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/selectCategoryText"
         android:layout_above="@+id/editSpinner"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/selectCategoryText" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -36,39 +70,6 @@
         android:hint="Change Name Here"
         android:layout_below="@+id/editSpinner"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="Change Parent Category:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editCategoryEditText"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/editCatParentText" />
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editCatParentText"
-        android:layout_alignParentStart="true"
-        android:id="@+id/parentEditSpinner" />
-
-    <TextView
-        android:text="All Changes are optional."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/parentEditSpinner"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/editCatOptionalReminder" />
-
-    <Button
-        android:text="Save Changes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/saveButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editCatOptionalReminder"
-        android:layout_alignParentEnd="true" />
 
 
 </RelativeLayout>

@@ -21,7 +21,8 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 
     EditText editCategoryEditText;
     Button saveButton;
-    Spinner parentEditSpinner, editSpinner;
+    Spinner editSpinner;
+//    Spinner parentEditSpinner;
     DatabaseHelper timeDatabase;
 
     @Override
@@ -32,7 +33,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 
         saveButton = (Button) v.findViewById(R.id.saveButton);
         editCategoryEditText = (EditText) v.findViewById(R.id.editCategoryEditText);
-        parentEditSpinner = (Spinner) v.findViewById(R.id.parentEditSpinner);
+//        parentEditSpinner = (Spinner) v.findViewById(R.id.parentEditSpinner);
         editSpinner = (Spinner) v.findViewById(R.id.editSpinner);
 
         timeDatabase = new DatabaseHelper(getActivity());
@@ -46,7 +47,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
                 Long LongID = id;
                 Integer IntegerID = LongID.intValue();
                 editCategoryEditText.setText(text_name.get(IntegerID));
-                updateParentSpinnerItems();
+                updateSpinnerItems();
             }
 
             @Override
@@ -56,8 +57,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 
         });
 
-        updateEditSpinnerItems();
-        updateParentSpinnerItems();
+        updateSpinnerItems();
 
         return v;
     }
@@ -66,51 +66,44 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveButton:
-                Long editLongSelectedId = editSpinner.getSelectedItemId();
-                Integer editSelectedId = editLongSelectedId.intValue();
+                Integer editID = (int) (long) editSpinner.getSelectedItemId();
 
-                Long parentLong = parentEditSpinner.getSelectedItemId();
-                Integer parent_data = parentLong != null ? parentLong.intValue() : null;
+//                Long parentLong = parentEditSpinner.getSelectedItemId();
+//                Integer parent_data = parentLong != null ? parentLong.intValue() : null;
 
-                boolean errorCheckName = timeDatabase.updateDataByID("categories", editSelectedId, "name", editCategoryEditText.getText().toString());
-                boolean errorCheckParent = timeDatabase.updateDataByID("categories", editSelectedId, "parent", parent_data.toString());
+                boolean errorCheckName = timeDatabase.updateDataByID("categories", editID, "name", editCategoryEditText.getText().toString());
+//                boolean errorCheckParent = timeDatabase.updateDataByID("categories", editID, "parent", parent_data.toString());
 
-                if (errorCheckName && errorCheckParent){
+                if (errorCheckName){
                     Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
                 }
 
-                updateEditSpinnerItems();
-                updateParentSpinnerItems();
+                updateSpinnerItems();
                 break;
 
         }
     }
 
-    public void updateEditSpinnerItems(){
+    public void updateSpinnerItems(){
         SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+//        SparseArray<String> parentNames = timeDatabase.getColumnData("categories", 2);
+
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         editSpinner.setAdapter(spinnerAdapter);
-    }
 
-    public void updateParentSpinnerItems(){
-        SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
-        SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
-        categoryNames.put(0, "None");
-        parentEditSpinner.setAdapter(spinnerAdapter);
+//        categoryNames.put(0, "None");
 
-        SparseArray<String> parentNames = timeDatabase.getColumnData("categories", 2);
+//        parentEditSpinner.setAdapter(spinnerAdapter);
+//
+//
+//        for (int i = 0; i < parentEditSpinner.getCount(); i++) {
+//            if (parentEditSpinner.getItemAtPosition(i).equals("value")) {
+//                parentEditSpinner.setSelection(i);
+//                break;
+//            }
+//        }
 
-        Integer parent_data;
-        Long parentLong;
-
-        if(editSpinner != null && editSpinner.getSelectedItem() !=null ) {
-            parentLong = editSpinner.getSelectedItemId();
-            parent_data = parentLong.intValue();
-            parentEditSpinner.setSelection(Integer.parseInt(parentNames.get(parent_data)));
-        } else  {
-            parentEditSpinner.setSelection(0);
-        }
     }
 }
