@@ -94,7 +94,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
         editSpinner.setAdapter(spinnerAdapter);
 
 //        categoryNames.put(0, "None");
-
+//
 //        parentEditSpinner.setAdapter(spinnerAdapter);
 //
 //
