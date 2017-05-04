@@ -2,6 +2,7 @@ package com.elliot_labs.timetracker;
 
 
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 
 /**
@@ -43,10 +43,11 @@ public class SettingsFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.toastButton:
-                Context contextToast = getActivity().getApplicationContext();
-                CharSequence text = "Test toast...";
-                int duration = Toast.LENGTH_SHORT;
-                Toast.makeText(contextToast, text, duration).show();
+                ProgressDialog dialog = new ProgressDialog(getActivity());
+                dialog.setMessage("test");
+                dialog.setCancelable(false);
+                dialog.setInverseBackgroundForced(false);
+                dialog.show();
                 break;
 
             case R.id.notificationButton:
