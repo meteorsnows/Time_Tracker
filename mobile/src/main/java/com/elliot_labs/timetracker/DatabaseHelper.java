@@ -38,11 +38,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_TIMING_CATEGORY = "category INTEGER";
 
 
-
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
+    // Creates the initial database and its structure if it does not exist.
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_SAVED + " ("
@@ -68,72 +68,131 @@ class DatabaseHelper extends SQLiteOpenHelper {
         // Creates the tables and columns in the DB for data storage
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // What needs to happen when a DB upgrade happens. Place code here if needed.
     }
 
-    boolean addDataCategories(String name, Integer parent){
+
+    // Each of the below data manipulation methods will return a boolean after execution,
+    // True = the job was successful where as False indicates a failure.
+    // For the data query methods, they will return an array with the requested data.
+
+
+    // Adds data in the form of a string to the specified table (adds a new row)
+    boolean addStringDataRow(String tableName, String stringData){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(COL_CATEGORIES_NAME.split(" ", 0)[0], name);
-        if (parent != null){
-            if (parent > 0) {
-                contentValues.put(COL_CATEGORIES_PARENT.split(" ", 0)[0], parent);
-            } else {
-                contentValues.put(COL_CATEGORIES_PARENT.split(" ", 0)[0], 0);
-            }
-        }
+        contentValues.put(tableName, stringData);
 
-        long errorCheck = db.insert(TABLE_CATEGORIES, null,contentValues);
+        long errorCheck = db.insert(tableName, null, contentValues);
+        db.close();
 
-        if (errorCheck == -1) {
-            return false;
-        } else {
-            return true;
-        }
+        return (errorCheck != -1);
     }
 
-    SparseArray<String> getColumnData(String tableName, Integer columnID) {
+
+    // Adds data in the form of a integer to the specified table (adds a new row)
+    boolean addIntegerDataRow(String tableName, Integer integerData){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor categories = db.rawQuery("select * from " + tableName, null);
+        ContentValues contentValues = new ContentValues();
 
-        SparseArray<String> mappedData = new SparseArray<>();
+        contentValues.put(tableName, integerData);
 
-        if (!categories.moveToFirst()) {
-            //do something here if no data available
-        } else {
-            categories.moveToFirst();
-            boolean categoryDataAvailable = true;
+        long errorCheck = db.insert(tableName, null, contentValues);
+        db.close();
 
-            while(categoryDataAvailable) {
-                mappedData.put(categories.getInt(0), categories.getString(columnID));
+        return (errorCheck != -1);
+    }
 
-                if (categories.moveToNext()){
-                    categoryDataAvailable = true;
-                } else {
-                    categoryDataAvailable = false;
+
+    // Returns the string data of the specified column from hte given table in array format.
+    SparseArray<String> getColumnStringData(String tableName, String columnName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
+
+        SparseArray<String> columnData = new SparseArray<>();
+        int columnID = dbCursor.getColumnIndex(columnName);
+
+        if (dbCursor.moveToFirst()) {
+            boolean dataAvailable = true;
+
+            while (dataAvailable){
+                columnData.put(dbCursor.getInt(0), dbCursor.getString(columnID));
+
+                if (!dbCursor.moveToNext()){
+                    dataAvailable = false;
                 }
             }
         }
-        return mappedData;
+
+        db.close();
+        return columnData;
     }
 
-    int deleteByID(String table_name, Integer ID){
+
+    // Returns the integer data of the specified column from hte given table in array format.
+    SparseArray<Integer> getColumnIntegerData(String tableName, String columnName){
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(table_name, "ID = ?", new String[] {ID.toString()});
+        Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
+
+        SparseArray<Integer> columnData = new SparseArray<>();
+        int columnID = dbCursor.getColumnIndex(columnName);
+
+        if (dbCursor.moveToFirst()) {
+            boolean dataAvailable = true;
+
+            while (dataAvailable){
+                columnData.put(dbCursor.getInt(0), dbCursor.getInt(columnID));
+
+                if (!dbCursor.moveToNext()){
+                    dataAvailable = false;
+                }
+            }
+        }
+
+        db.close();
+        return columnData;
     }
 
-    boolean updateDataByID(String table_name, Integer ID, String col_name, String cell_data) {
+
+    // Updates the cell data in the specified table that matches the provided row ID and column name.
+    boolean updateStringDataByID(String tableName, Integer ID, String columnName, String cellData) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(col_name, cell_data);
+        contentValues.put(columnName, cellData);
 
-        db.update(table_name, contentValues, "ID = ?",new String[]{ID.toString()} );
-        return true;
+        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()} );
+        db.close();
 
+        return (result == 1);
     }
 
+
+    // Updates the cell data in the specified table that matches the provided row ID and column name.
+    boolean updateIntegerDataByID(String tableName, Integer ID, String columnName, Integer cellData) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(columnName, cellData);
+
+        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()} );
+        db.close();
+
+        return (result == 1);
+    }
+
+
+    // Deletes the specified row in the selected table by the ID of the row.
+    boolean deleteRowByID(String table_name, Integer ID){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int result = db.delete(table_name, "ID = ?", new String[] {ID.toString()});
+        db.close();
+
+        return (result == 1);
+    }
 }
