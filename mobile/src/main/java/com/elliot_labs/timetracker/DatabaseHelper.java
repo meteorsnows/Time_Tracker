@@ -65,7 +65,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 + COL_TIMING_TOTAL + ","
                 + COL_TIMING_CATEGORY + ")");
 
-        // Creates teh tables and columns in the DB for data storage
+        // Creates the tables and columns in the DB for data storage
     }
 
     @Override
