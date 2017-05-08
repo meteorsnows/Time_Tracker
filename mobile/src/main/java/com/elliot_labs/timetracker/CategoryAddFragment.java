@@ -58,7 +58,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
                     if (errorCheck) {
                         Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
-                        newCategoryEditText.setText("");
+                        newCategoryEditText.getText().clear();
                     } else {
                         Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
                     }

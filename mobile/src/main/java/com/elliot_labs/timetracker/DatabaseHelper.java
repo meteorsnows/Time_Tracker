@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.util.SparseArray;
 
 /**
@@ -45,6 +46,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     // Creates the initial database and its structure if it does not exist.
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL("create table " + TABLE_SAVED + " ("
                 + COL_GLOBAL_ID + ","
                 + COL_SAVED_DATE + ","
@@ -82,6 +84,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Adds data in the form of a string to the specified table (adds a new row)
     boolean addStringDataRow(String tableName, String columnName, String stringData){
+        Log.d("Time Tracker", "Database Add");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -96,6 +99,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Adds data in the form of a integer to the specified table (adds a new row)
     boolean addIntegerDataRow(String tableName, String columnName, Integer integerData){
+        Log.d("Time Tracker", "Database Add");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -110,6 +114,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Returns the string data of the specified column from hte given table in array format.
     SparseArray<String> getColumnStringData(String tableName, String columnName){
+        Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
 
@@ -135,6 +140,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Returns the integer data of the specified column from hte given table in array format.
     SparseArray<Integer> getColumnIntegerData(String tableName, String columnName){
+        Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
 
@@ -160,6 +166,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Updates the cell data in the specified table that matches the provided row ID and column name.
     boolean updateStringDataByID(String tableName, Integer ID, String columnName, String cellData) {
+        Log.d("Time Tracker", "Database update");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -174,6 +181,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Updates the cell data in the specified table that matches the provided row ID and column name.
     boolean updateIntegerDataByID(String tableName, Integer ID, String columnName, Integer cellData) {
+        Log.d("Time Tracker", "Database Update");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -188,6 +196,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     // Deletes the specified row in the selected table by the ID of the row.
     boolean deleteRowByID(String table_name, Integer ID){
+        Log.d("Time Tracker", "Database delete");
         SQLiteDatabase db = this.getWritableDatabase();
 
         int result = db.delete(table_name, "ID = ?", new String[] {ID.toString()});

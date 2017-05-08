@@ -39,7 +39,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
         saveButton.setOnClickListener(this);
 
 
-        // Reads teh categories data from teh database and populates the spinner with the data.
+        // Reads the categories data from the database and populates the spinner with the data.
         editSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -47,7 +47,6 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
                 Long LongID = id;
                 Integer IntegerID = LongID.intValue();
                 editCategoryEditText.setText(textName.get(IntegerID));
-                updateSpinnerItems();
             }
 
             @Override
@@ -84,7 +83,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 
     public void updateSpinnerItems(){
         SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
-//        SparseArray<String> parentNames = timeDatabase.getColumnStringData("categories", "name");
+//        SparseArray<Integer> parentNames = timeDatabase.getColumnIntegerData("categories", "parent");
 
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         editSpinner.setAdapter(spinnerAdapter);
@@ -100,6 +99,5 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
 //                break;
 //            }
 //        }
-
     }
 }
