@@ -27,18 +27,19 @@
         android:id="@+id/createButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/newCategoryEditText" />
+        android:layout_below="@+id/newCategoryEditText"
+        android:layout_alignParentEnd="true" />
 
     <EditText
+        android:id="@+id/newCategoryEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/newCategoryEditText"
-        android:hint="Name of category"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:ems="10"
+        android:hint="Name of category"
+        android:imeOptions="actionDone"
+        android:inputType="textPersonName" />
 
     <TextView
         android:text="Add New Category"
