@@ -12,7 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 /**
- * Created by Elliot on 2/5/2017.
+ * Delete's the selected category entry in the database and updates the spinner.
  */
 
 public class CategoryDeleteFragment extends Fragment implements OnClickListener {
@@ -38,6 +38,8 @@ public class CategoryDeleteFragment extends Fragment implements OnClickListener 
         return v;
     }
 
+    // When the delete button is clicked, gets the currently selected item and tells the database to
+    // delete the selected item.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -45,7 +47,7 @@ public class CategoryDeleteFragment extends Fragment implements OnClickListener 
                 Long selectedIDLong = deleteSpinner.getSelectedItemId();
                 Integer selectedId = selectedIDLong.intValue();
 
-                if (timeDatabase.deleteByID("categories", selectedId) == 1) {
+                if (timeDatabase.deleteRowByID("categories", selectedId)) {
                     Toast.makeText(getActivity(), "Deleted", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong :-(", Toast.LENGTH_LONG).show();
@@ -53,13 +55,13 @@ public class CategoryDeleteFragment extends Fragment implements OnClickListener 
 
                 updateDeleteSelectorItems();
                 break;
-
         }
     }
 
-
+// Updates the spinner that shows each category to delete by grabbing a copy of the latest data from
+// the database and populating the spinner with it.
     public void updateDeleteSelectorItems(){
-        SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+        SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         deleteSpinner.setAdapter(spinnerAdapter);
     }

@@ -81,11 +81,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Adds data in the form of a string to the specified table (adds a new row)
-    boolean addStringDataRow(String tableName, String stringData){
+    boolean addStringDataRow(String tableName, String columnName, String stringData){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(tableName, stringData);
+        contentValues.put(columnName, stringData);
 
         long errorCheck = db.insert(tableName, null, contentValues);
         db.close();
@@ -95,11 +95,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Adds data in the form of a integer to the specified table (adds a new row)
-    boolean addIntegerDataRow(String tableName, Integer integerData){
+    boolean addIntegerDataRow(String tableName, String columnName, Integer integerData){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(tableName, integerData);
+        contentValues.put(columnName, integerData);
 
         long errorCheck = db.insert(tableName, null, contentValues);
         db.close();

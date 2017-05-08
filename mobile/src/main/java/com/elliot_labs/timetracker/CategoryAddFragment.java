@@ -11,7 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * Created by Elliot on 2/5/2017.
+ * Adds the specified category to the app for time tracking.
+ * Adds the entered text into the database.
  */
 
 public class CategoryAddFragment extends Fragment implements OnClickListener {
@@ -39,6 +40,10 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
         return v;
     }
 
+
+    // Takes the text entered into the EditText widget and does an input check on it.
+    // If there is no text then it displays a tooltip with instructions.
+    // If it passes validation then it adds the entered text to the database.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -49,7 +54,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
                 if (nameOfCategory.trim().isEmpty()) {
                     Toast.makeText(getActivity(),"Please type a category name.", Toast.LENGTH_LONG).show();
                 } else {
-                    boolean errorCheck = timeDatabase.addDataCategories(nameOfCategory, 0);
+                    boolean errorCheck = timeDatabase.addStringDataRow("categories", "name", nameOfCategory.trim());
 
                     if (errorCheck) {
                         Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
@@ -65,7 +70,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
 
 //    public void updateSelectorItems(){
-//        SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
+//        SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
 //        categoryNames.put(0, "None");
 //        SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
 //        parentAddSpinner.setAdapter(spinnerAdapter);

@@ -35,18 +35,18 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
         editCategoryEditText = (EditText) v.findViewById(R.id.editCategoryEditText);
 //        parentEditSpinner = (Spinner) v.findViewById(R.id.parentEditSpinner);
         editSpinner = (Spinner) v.findViewById(R.id.editSpinner);
-
         timeDatabase = new DatabaseHelper(getActivity());
-
         saveButton.setOnClickListener(this);
 
+
+        // Reads teh categories data from teh database and populates the spinner with the data.
         editSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                SparseArray<String> text_name = timeDatabase.getColumnData("categories", 1);
+                SparseArray<String> textName = timeDatabase.getColumnStringData("categories", "name");
                 Long LongID = id;
                 Integer IntegerID = LongID.intValue();
-                editCategoryEditText.setText(text_name.get(IntegerID));
+                editCategoryEditText.setText(textName.get(IntegerID));
                 updateSpinnerItems();
             }
 
@@ -54,11 +54,9 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
             public void onNothingSelected(AdapterView<?> parentView) {
                 // do nothing
             }
-
         });
 
         updateSpinnerItems();
-
         return v;
     }
 
@@ -67,14 +65,12 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.saveButton:
                 Integer editID = (int) (long) editSpinner.getSelectedItemId();
-
 //                Long parentLong = parentEditSpinner.getSelectedItemId();
 //                Integer parent_data = parentLong != null ? parentLong.intValue() : null;
+                boolean errorCheck = timeDatabase.updateStringDataByID("categories", editID, "name", editCategoryEditText.getText().toString());
+//                boolean errorCheckParent = timeDatabase.updateStringDataByID("categories", editID, "parent", parent_data.toString());
 
-                boolean errorCheckName = timeDatabase.updateDataByID("categories", editID, "name", editCategoryEditText.getText().toString());
-//                boolean errorCheckParent = timeDatabase.updateDataByID("categories", editID, "parent", parent_data.toString());
-
-                if (errorCheckName){
+                if (errorCheck){
                     Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
@@ -87,8 +83,8 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
     }
 
     public void updateSpinnerItems(){
-        SparseArray<String> categoryNames = timeDatabase.getColumnData("categories", 1);
-//        SparseArray<String> parentNames = timeDatabase.getColumnData("categories", 2);
+        SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
+//        SparseArray<String> parentNames = timeDatabase.getColumnStringData("categories", "name");
 
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         editSpinner.setAdapter(spinnerAdapter);
