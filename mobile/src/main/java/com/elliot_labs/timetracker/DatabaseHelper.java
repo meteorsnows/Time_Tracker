@@ -46,7 +46,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     // Creates the initial database and its structure if it does not exist.
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d("Time Tracker", "Database Create");
         db.execSQL("create table " + TABLE_SAVED + " ("
                 + COL_GLOBAL_ID + ","
                 + COL_SAVED_DATE + ","
@@ -73,6 +73,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d("Time Tracker", "Database Upgrade");
         // What needs to happen when a DB upgrade happens. Place code here if needed.
     }
 
