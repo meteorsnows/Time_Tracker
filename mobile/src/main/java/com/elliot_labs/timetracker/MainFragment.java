@@ -18,6 +18,7 @@ import android.widget.Chronometer;
 public class MainFragment extends Fragment implements OnClickListener {
 
     Button toggleButton;
+    DatabaseHelper timeDatabase;
     Button resetButton;
     Chronometer chronometer;
     long timeWhenStopped = 0;
@@ -36,6 +37,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         toggleButton = (Button) v.findViewById(R.id.buttonToggleChronometer);
         resetButton = (Button) v.findViewById(R.id.buttonReset);
         chronometer = (Chronometer) v.findViewById(R.id.mainChronometer);
+        timeDatabase = new DatabaseHelper(getActivity());
 
         toggleButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
@@ -58,6 +60,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void toggleChronometer(){
         if(!currentlyTiming){
             chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+            boolean errorCheck = timeDatabase.addLongDataRow("currently_timing", "date_created", SystemClock.elapsedRealtime());
             chronometer.start();
             toggleButton.setText("Stop");
             currentlyTiming = true;

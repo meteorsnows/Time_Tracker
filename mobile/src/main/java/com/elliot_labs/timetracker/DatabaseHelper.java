@@ -20,7 +20,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_GLOBAL_ID = "ID INTEGER PRIMARY KEY AUTOINCREMENT";
 
     private static final String TABLE_SAVED = "saved_times";
-    private static final String COL_SAVED_DATE = "initial_date INTEGER";
+    private static final String COL_SAVED_DATE = "date_created INTEGER";
     private static final String COL_SAVED_TOTAL = "total_time INTEGER";
     private static final String COL_SAVED_CATEGORY = "category INTEGER";
 
@@ -105,6 +105,21 @@ class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(columnName, integerData);
+
+        long errorCheck = db.insert(tableName, null, contentValues);
+        db.close();
+
+        return (errorCheck != -1);
+    }
+
+
+    // Adds data in the form of a long type to the specified table (adds a new row)
+    boolean addLongDataRow(String tableName, String columnName, Long longData){
+        Log.d("Time Tracker", "Database Add");
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(columnName, longData);
 
         long errorCheck = db.insert(tableName, null, contentValues);
         db.close();
