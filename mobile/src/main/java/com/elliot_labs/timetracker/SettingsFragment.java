@@ -39,6 +39,7 @@ public class SettingsFragment extends Fragment implements OnClickListener {
         // Inflate the layout for this fragment
         return v;
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

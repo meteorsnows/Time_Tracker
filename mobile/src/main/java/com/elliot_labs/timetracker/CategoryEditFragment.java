@@ -22,7 +22,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
     EditText editCategoryEditText;
     Button saveButton;
     Spinner editSpinner;
-//    Spinner parentEditSpinner;
+    //    Spinner parentEditSpinner;
     DatabaseHelper timeDatabase;
 
     @Override
@@ -69,10 +69,10 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
                 boolean errorCheck = timeDatabase.updateStringDataByID("categories", editID, "name", editCategoryEditText.getText().toString());
 //                boolean errorCheckParent = timeDatabase.updateStringDataByID("categories", editID, "parent", parent_data.toString());
 
-                if (errorCheck){
-                    Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
+                if (errorCheck) {
+                    Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Something went wrong :-(", Toast.LENGTH_LONG).show();
                 }
 
                 updateSpinnerItems();
@@ -81,7 +81,7 @@ public class CategoryEditFragment extends Fragment implements OnClickListener {
         }
     }
 
-    public void updateSpinnerItems(){
+    public void updateSpinnerItems() {
         SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
 //        SparseArray<Integer> parentNames = timeDatabase.getColumnIntegerData("categories", "parent");
 

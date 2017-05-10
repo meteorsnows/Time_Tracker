@@ -58,9 +58,9 @@ public class CategoryDeleteFragment extends Fragment implements OnClickListener 
         }
     }
 
-// Updates the spinner that shows each category to delete by grabbing a copy of the latest data from
-// the database and populating the spinner with it.
-    public void updateDeleteSelectorItems(){
+    // Updates the spinner that shows each category to delete by grabbing a copy of the latest data from
+    // the database and populating the spinner with it.
+    public void updateDeleteSelectorItems() {
         SparseArray<String> categoryNames = timeDatabase.getColumnStringData("categories", "name");
         SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), categoryNames);
         deleteSpinner.setAdapter(spinnerAdapter);

@@ -84,7 +84,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Adds data in the form of a string to the specified table (adds a new row)
-    boolean addStringDataRow(String tableName, String columnName, String stringData){
+    boolean addStringDataRow(String tableName, String columnName, String stringData) {
         Log.d("Time Tracker", "Database Add");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -99,7 +99,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Adds data in the form of a integer to the specified table (adds a new row)
-    boolean addIntegerDataRow(String tableName, String columnName, Integer integerData){
+    boolean addIntegerDataRow(String tableName, String columnName, Integer integerData) {
         Log.d("Time Tracker", "Database Add");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -114,7 +114,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Adds data in the form of a long type to the specified table (adds a new row)
-    boolean addLongDataRow(String tableName, String columnName, Long longData){
+    boolean addLongDataRow(String tableName, String columnName, Long longData) {
         Log.d("Time Tracker", "Database Add");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -129,7 +129,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Returns the string data of the specified column from the given table in array format.
-    SparseArray<String> getColumnStringData(String tableName, String columnName){
+    SparseArray<String> getColumnStringData(String tableName, String columnName) {
         Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
@@ -140,10 +140,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
         if (dbCursor.moveToFirst()) {
             boolean dataAvailable = true;
 
-            while (dataAvailable){
+            while (dataAvailable) {
                 columnData.put(dbCursor.getInt(0), dbCursor.getString(columnID));
 
-                if (!dbCursor.moveToNext()){
+                if (!dbCursor.moveToNext()) {
                     dataAvailable = false;
                 }
             }
@@ -154,7 +154,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Returns the integer data of the specified column from the given table in array format.
-    SparseArray<Integer> getColumnIntegerData(String tableName, String columnName){
+    SparseArray<Integer> getColumnIntegerData(String tableName, String columnName) {
         Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
@@ -165,10 +165,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
         if (dbCursor.moveToFirst()) {
             boolean dataAvailable = true;
 
-            while (dataAvailable){
+            while (dataAvailable) {
                 columnData.put(dbCursor.getInt(0), dbCursor.getInt(columnID));
 
-                if (!dbCursor.moveToNext()){
+                if (!dbCursor.moveToNext()) {
                     dataAvailable = false;
                 }
             }
@@ -179,7 +179,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Returns the long data of the specified column from the given table in array format.
-    SparseArray<Long> getColumnLongData(String tableName, String columnName){
+    SparseArray<Long> getColumnLongData(String tableName, String columnName) {
         Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
@@ -190,10 +190,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
         if (dbCursor.moveToFirst()) {
             boolean dataAvailable = true;
 
-            while (dataAvailable){
+            while (dataAvailable) {
                 columnData.put(dbCursor.getInt(0), dbCursor.getLong(columnID));
 
-                if (!dbCursor.moveToNext()){
+                if (!dbCursor.moveToNext()) {
                     dataAvailable = false;
                 }
             }
@@ -211,7 +211,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         contentValues.put(columnName, cellData);
 
-        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()} );
+        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()});
         db.close();
 
         return (result == 1);
@@ -226,7 +226,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         contentValues.put(columnName, cellData);
 
-        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()} );
+        int result = db.update(tableName, contentValues, "ID = ?", new String[]{ID.toString()});
         db.close();
 
         return (result == 1);
@@ -234,11 +234,11 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Deletes the specified row in the selected table by the ID of the row.
-    boolean deleteRowByID(String table_name, Integer ID){
+    boolean deleteRowByID(String table_name, Integer ID) {
         Log.d("Time Tracker", "Database delete");
         SQLiteDatabase db = this.getWritableDatabase();
 
-        int result = db.delete(table_name, "ID = ?", new String[] {ID.toString()});
+        int result = db.delete(table_name, "ID = ?", new String[]{ID.toString()});
         db.close();
 
         return (result == 1);

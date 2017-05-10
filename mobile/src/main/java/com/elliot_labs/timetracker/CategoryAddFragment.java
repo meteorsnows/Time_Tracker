@@ -19,7 +19,7 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
 
     DatabaseHelper timeDatabase;
     EditText newCategoryEditText;
-//    Spinner parentAddSpinner;
+    //    Spinner parentAddSpinner;
     Button createButton;
 
     @Override
@@ -52,15 +52,15 @@ public class CategoryAddFragment extends Fragment implements OnClickListener {
                 String nameOfCategory = newCategoryEditText.getText().toString();
 
                 if (nameOfCategory.trim().isEmpty()) {
-                    Toast.makeText(getActivity(),"Please type a category name.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Please type a category name.", Toast.LENGTH_LONG).show();
                 } else {
                     boolean errorCheck = timeDatabase.addStringDataRow("categories", "name", nameOfCategory.trim());
 
                     if (errorCheck) {
-                        Toast.makeText(getActivity(),"Saved!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Saved!", Toast.LENGTH_LONG).show();
                         newCategoryEditText.getText().clear();
                     } else {
-                        Toast.makeText(getActivity(),"Something went wrong :-(", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Something went wrong :-(", Toast.LENGTH_LONG).show();
                     }
                 }
 //                updateSelectorItems();
