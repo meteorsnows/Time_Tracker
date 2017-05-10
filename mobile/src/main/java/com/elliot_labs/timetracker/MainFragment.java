@@ -4,22 +4,28 @@ package com.elliot_labs.timetracker;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.Spinner;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The main screen that is used by the user.
+ * This screen will create timer(s) that the user will interact with.
  */
+
 public class MainFragment extends Fragment implements OnClickListener {
 
     Button toggleButton;
     DatabaseHelper timeDatabase;
-    Button resetButton;
+    Button pauseButton;
+    Spinner categorySpinner;
     Chronometer chronometer;
     long timeWhenStopped = 0;
     boolean currentlyTiming = false;
@@ -35,12 +41,26 @@ public class MainFragment extends Fragment implements OnClickListener {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         toggleButton = (Button) v.findViewById(R.id.buttonToggleChronometer);
-        resetButton = (Button) v.findViewById(R.id.buttonReset);
+        pauseButton = (Button) v.findViewById(R.id.buttonPause);
+        categorySpinner = (Spinner) v.findViewById(R.id.categorySpinner);
         chronometer = (Chronometer) v.findViewById(R.id.mainChronometer);
         timeDatabase = new DatabaseHelper(getActivity());
 
         toggleButton.setOnClickListener(this);
-        resetButton.setOnClickListener(this);
+        pauseButton.setOnClickListener(this);
+
+        // Reads the categories data from the database and populates the spinner with the data.
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                //do something here
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // do nothing
+            }
+        });
 
         if (savedInstanceState != null) {
             chronometer.setBase(savedInstanceState.getLong("time"));
@@ -54,13 +74,14 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
         }
 
+        updateSpinnerItems();
+
         return v;
     }
 
-    public void toggleChronometer(){
-        if(!currentlyTiming){
-            chronometer.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
-            boolean errorCheck = timeDatabase.addLongDataRow("currently_timing", "date_created", SystemClock.elapsedRealtime());
+    public void toggleChronometer() {
+        if (!currentlyTiming) {
+            loadTimingState(categorySpinner.getSelectedItem().toString());
             chronometer.start();
             toggleButton.setText("Stop");
             currentlyTiming = true;
@@ -71,9 +92,24 @@ public class MainFragment extends Fragment implements OnClickListener {
             currentlyTiming = false;
         }
     }
-    public void resetChronometer(){
+
+    public void pauseTime() {
         timeWhenStopped = 0;
         chronometer.setBase(SystemClock.elapsedRealtime());
+    }
+
+    public void updateSpinnerItems() {
+        SparseArray<String> timingCategory = timeDatabase.getColumnStringData("categories", "name");
+        SparseStringsAdapter spinnerAdapter = new SparseStringsAdapter(getActivity(), timingCategory);
+        categorySpinner.setAdapter(spinnerAdapter);
+        timingCategory.put(0, "None");
+    }
+
+    public void loadTimingState(String categoryName) {
+        SparseArray<String> categoryNameArray = timeDatabase.getColumnStringData("categories", "name");
+        SparseArray<Long> timingFrom = timeDatabase.getColumnLongData("currently_timing", "timing_from");
+        Integer idOfCategory = categoryNameArray.indexOfValue(categoryName);
+        chronometer.setBase(timingFrom.get(idOfCategory));
     }
 
 
@@ -83,8 +119,8 @@ public class MainFragment extends Fragment implements OnClickListener {
             case R.id.buttonToggleChronometer:
                 toggleChronometer();
                 break;
-            case R.id.buttonReset:
-                resetChronometer();
+            case R.id.buttonPause:
+                pauseTime();
                 break;
         }
     }

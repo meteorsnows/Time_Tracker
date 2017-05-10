@@ -128,7 +128,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // Returns the string data of the specified column from hte given table in array format.
+    // Returns the string data of the specified column from the given table in array format.
     SparseArray<String> getColumnStringData(String tableName, String columnName){
         Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -148,13 +148,12 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
-
         db.close();
         return columnData;
     }
 
 
-    // Returns the integer data of the specified column from hte given table in array format.
+    // Returns the integer data of the specified column from the given table in array format.
     SparseArray<Integer> getColumnIntegerData(String tableName, String columnName){
         Log.d("Time Tracker", "Database read");
         SQLiteDatabase db = this.getWritableDatabase();
@@ -174,7 +173,31 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+        db.close();
+        return columnData;
+    }
 
+
+    // Returns the long data of the specified column from the given table in array format.
+    SparseArray<Long> getColumnLongData(String tableName, String columnName){
+        Log.d("Time Tracker", "Database read");
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor dbCursor = db.rawQuery("select * from " + tableName, null);
+
+        SparseArray<Long> columnData = new SparseArray<>();
+        int columnID = dbCursor.getColumnIndex(columnName);
+
+        if (dbCursor.moveToFirst()) {
+            boolean dataAvailable = true;
+
+            while (dataAvailable){
+                columnData.put(dbCursor.getInt(0), dbCursor.getLong(columnID));
+
+                if (!dbCursor.moveToNext()){
+                    dataAvailable = false;
+                }
+            }
+        }
         db.close();
         return columnData;
     }

@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    tools:context="com.elliot_labs.timetracker.MainFragment">
+
+
+    <Button
+        android:id="@+id/buttonPause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pause"
+        android:textSize="40sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/mainChronometer"
+        android:layout_below="@+id/mainChronometer" />
+
+    <Spinner
+        android:id="@+id/categorySpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textAlignment="center" />
+
+    <Chronometer
+        android:id="@+id/mainChronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="100sp"
+        android:layout_below="@+id/categorySpinner"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/buttonToggleChronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:textSize="40sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/mainChronometer"
+        android:layout_below="@+id/mainChronometer" />
+
+    <TextView
+        android:id="@+id/categoryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/mainChronometer"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/categorySpinner"
+        android:gravity="center"
+        android:text="Category:"
+        android:textAlignment="center" />
+
+</RelativeLayout>
