@@ -108,8 +108,20 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void loadTimingState(String categoryName) {
         SparseArray<String> categoryNameArray = timeDatabase.getColumnStringData("categories", "name");
         SparseArray<Long> timingFrom = timeDatabase.getColumnLongData("currently_timing", "timing_from");
-        Integer idOfCategory = categoryNameArray.indexOfValue(categoryName);
-        chronometer.setBase(timingFrom.get(idOfCategory));
+        SparseArray<Integer> timingCategory = timeDatabase.getColumnIntegerData("currently_timing", "category");
+
+        if (categoryName == "None") {
+            Integer idOfTimingFrom = timingCategory.indexOfValue(0);
+            if (timingFrom.get(idOfTimingFrom) == null) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+            } else {
+                chronometer.setBase(timingFrom.get(idOfTimingFrom));
+            }
+        } else {
+            Integer idOfCategory = categoryNameArray.indexOfValue(categoryName);
+            Integer idOfTimingFrom = timingCategory.indexOfValue(idOfCategory);
+            chronometer.setBase(timingFrom.get(idOfTimingFrom));
+        }
     }
 
 
