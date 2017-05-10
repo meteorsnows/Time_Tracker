@@ -4,7 +4,7 @@ import android.util.SparseArray;
 import android.widget.BaseAdapter;
 
 /**
- * Created by Elliot on 2/5/2017.
+ * Used to allow sparse arrays on spinners.
  */
 
 public abstract class SparseArrayAdapter<E> extends BaseAdapter {

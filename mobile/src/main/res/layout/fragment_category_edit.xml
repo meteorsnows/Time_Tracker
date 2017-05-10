@@ -32,7 +32,7 @@
         android:text="Edit Existing Category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editCategoryHeder"
+        android:id="@+id/editCategoryHeader"
         android:textSize="17sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editCatOptionalReminder"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/editCategoryHeder"
+        android:layout_below="@+id/editCategoryHeader"
         android:layout_centerHorizontal="true" />
 
     <Spinner

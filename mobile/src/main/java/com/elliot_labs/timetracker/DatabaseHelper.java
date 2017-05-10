@@ -148,6 +148,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+        dbCursor.close();
         db.close();
         return columnData;
     }
@@ -173,6 +174,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+        dbCursor.close();
         db.close();
         return columnData;
     }
@@ -198,6 +200,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
         }
+        dbCursor.close();
         db.close();
         return columnData;
     }

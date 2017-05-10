@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * Created by Elliot on 2/5/2017.
+ * Used to allow sparse string arrays on spinners.
  */
 
 public class SparseStringsAdapter extends SparseArrayAdapter<String> {

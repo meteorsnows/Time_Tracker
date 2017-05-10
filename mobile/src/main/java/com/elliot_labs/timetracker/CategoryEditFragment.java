@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 /**
- * Created by Elliot on 2/5/2017.
+ * Edits the name of categories that already exist.
  */
 
 public class CategoryEditFragment extends Fragment implements OnClickListener {
