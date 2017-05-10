@@ -120,7 +120,11 @@ public class MainFragment extends Fragment implements OnClickListener {
         } else {
             Integer idOfCategory = categoryNameArray.indexOfValue(categoryName);
             Integer idOfTimingFrom = timingCategory.indexOfValue(idOfCategory);
-            chronometer.setBase(timingFrom.get(idOfTimingFrom));
+            if (timingFrom.get(idOfTimingFrom) == null) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+            } else {
+                chronometer.setBase(timingFrom.get(idOfTimingFrom));
+            }
         }
     }
 
