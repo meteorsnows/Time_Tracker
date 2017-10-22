@@ -31,5 +31,8 @@ platforms/wp8/.staging
 platforms/wp8/*.suo
 platforms/wp8/*.csproj.user
 
+# Windows Universal App (Windows Platform)
+# Coming soon!
+
 # res
 resources/signing
