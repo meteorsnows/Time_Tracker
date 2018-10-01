@@ -71,7 +71,7 @@ export class Database {
         let connectionURL = "mongodb://";
 
         // Set the port URL syntax if the user specifies the port.
-        this.Port = (typeof this.Port === "undefined") ? this.Port = "": this.Port = ":" + this.Port;
+        this.Port = (typeof this.Port === "undefined") ? this.Port = "" : this.Port = ":" + this.Port;
 
         // Add the username, password, host, port and database items to the base connection url.
         if (typeof this.User === "undefined" || typeof this.Password === "undefined") {
