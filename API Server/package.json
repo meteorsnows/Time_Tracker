@@ -26,5 +26,9 @@
     "url": "https://github.com/elliot-labs/Time_Tracker/issues"
   },
   "homepage": "https://github.com/elliot-labs/Time_Tracker#readme",
-  "dependencies": {}
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "express": "^4.16.3",
+    "typescript": "^3.1.1"
+  }
 }
