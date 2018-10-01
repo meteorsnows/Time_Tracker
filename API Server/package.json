@@ -1,0 +1,30 @@
+{
+  "name": "time-tracker-api",
+  "version": "0.0.1",
+  "description": "Server back end that centralizes time storage.",
+  "main": "Build/index.js",
+  "scripts": {
+    "test": "node Build/test.js",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elliot-labs/Time_Tracker.git"
+  },
+  "keywords": [
+    "API",
+    "container",
+    "back end",
+    "node",
+    "npm",
+    "docker",
+    "TypeScript"
+  ],
+  "author": "Elliot Huffman (elliot.huffman@microsoft.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/elliot-labs/Time_Tracker/issues"
+  },
+  "homepage": "https://github.com/elliot-labs/Time_Tracker#readme",
+  "dependencies": {}
+}
