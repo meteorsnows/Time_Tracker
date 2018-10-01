@@ -2,9 +2,6 @@ import Express from "express";
 import Mongoose from "mongoose";
 import {DBConfig, ServerConfig} from "./config";
 
-// Define variables
-const port = 8080;
-
 // Initialize express.
 const app = Express();
 const ObjectIDType = Mongoose.Schema.Types.ObjectId;
