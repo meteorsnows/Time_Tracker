@@ -75,14 +75,14 @@ export class Database {
 
         // Add the username, password, host, port and database items to the base connection url.
         if (typeof this.User === "undefined" || typeof this.Password === "undefined") {
-            connectionURL = connectionURL +  this.Host + this.Port + "/" + this.Database;
+            connectionURL = connectionURL + this.Host + this.Port + "/" + this.Database;
         } else {
             connectionURL = connectionURL + this.User + ":" +
             this.Password + "@" + this.Host + this.Port + "/" + this.Database;
         }
 
         // Connect to the database.
-        this.Session =  Mongoose.connect(connectionURL);
+        this.Session = Mongoose.connect(connectionURL);
 
         // Error check the connection.
         Mongoose.connection.on("error", (error) => {
@@ -156,5 +156,4 @@ export class Database {
         // This is just mostly here for the test script to exit after testing.
         return Mongoose.connection.close();
     }
-
 }
