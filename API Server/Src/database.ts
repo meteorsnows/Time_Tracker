@@ -1,5 +1,4 @@
 import Mongoose from "mongoose";
-import {DBConfig} from "./config";
 
 // Make the ObjectID type available for the database schema.
 const ObjectIDType = Mongoose.Schema.Types.ObjectId;
@@ -34,7 +33,7 @@ interface IDataSchema {
     Name?: string;
     Password: string;
     PermissionLevel: string;
-    Timing: [{
+    Timing?: [{
         Category: Mongoose.Types.ObjectId,
         StartTime: number,
         StopTime: number,
@@ -96,6 +95,7 @@ export class Database {
         Global section.
 
     */
+    //#region
 
     // Check the connection status and wait for connection to finish if still connecting.
     protected waitForConnection(): Promise<void> {
@@ -156,4 +156,49 @@ export class Database {
         // This is just mostly here for the test script to exit after testing.
         return Mongoose.connection.close();
     }
+
+    //#endregion
+    /*
+
+        User section.
+
+    */
+    //#region
+
+    // Creates a new user
+    protected createUser(email: string, password: string): Promise<Mongoose.Document> {
+        // Create a new promise.
+        return new Promise((resolve, reject) => {
+            // Wait for the database to connect before executing the user creation.
+            this.waitForConnection().then(() => {
+                // Run a search for an email address in the user database.
+                DataModel.findOne({eMail: email}, "eMail", (error, results) => {
+                    // If an error occurs, reject the promise.
+                    if (error) { reject(error); }
+                    // If no results were found, create the user.
+                    if (results === null) {
+                        // Build the user's data structure.
+                        const Data = {
+                            Password: password,
+                            eMail: email,
+                        };
+                        // Create a new user document.
+                        const newUser = new DataModel(Data);
+                        // Save the user's document.
+                        newUser.save((saveError, saveResults) => {
+                            // If there is an error during the save, reject the promise.
+                            if (error) { reject(saveError); }
+                            // Otherwise resolve the promise with the results, a copy of the new user document.
+                            resolve(saveResults);
+                        });
+                    } else {
+                        // If the email already exists in the database, reject the promise and provide the reason.
+                        reject("eMail already exists!");
+                    }
+                });
+            });
+        });
+    }
+
+    //#endregion
 }
