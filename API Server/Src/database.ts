@@ -90,4 +90,71 @@ export class Database {
             return;
         });
     }
+
+    /*
+
+        Global section.
+
+    */
+
+    // Check the connection status and wait for connection to finish if still connecting.
+    protected waitForConnection(): Promise<void> {
+        // Create a new promise as this is most definitively an async function.
+        return new Promise((resolve, reject) => {
+            // only proceed if the connection is connected or connecting.
+            if (Mongoose.connection.readyState === 1 || Mongoose.connection.readyState === 2) {
+                // If the DB is still connecting, wait for the connection to complete.
+                if (Mongoose.connection.readyState === 2) {
+                    // Once the connection is complete, execute the specified code.
+                    Mongoose.connection.once("open", () => {
+                        // Resolve the promise!
+                        resolve();
+                    });
+                }
+                // If the database is already connected, proceed as follows:
+                if (Mongoose.connection.readyState === 1) {
+                    // Resolve the promise.
+                    resolve();
+                }
+            } else {
+                // Reject the promise if we do not support the specific connection mode.
+                reject("Not connecting or connected!");
+            }
+        });
+    }
+
+    // Convert a string or a number to an ObjectID for use with mongoDB/Mongoose.
+    protected convertToObjectID(IDInput: ObjectID | string | number): Promise<ObjectID> {
+        // Create a new promise.
+        return new Promise((resolve, reject) => {
+            // If the input is a string or number, convert it.
+            if (typeof IDInput === "number" || typeof IDInput === "string") {
+                // Set up an error catcher for the string or number conversion.
+                // Execute the code in the try block and catch any errors that happen instead of crashing the program.
+                try {
+                    // Convert the input into an ObjectID and store the results in a variable.
+                    const IDOutput = Mongoose.Types.ObjectId(IDInput);
+                    // Resolve the promise with the results of the conversion to ObjectID.
+                    resolve(IDOutput);
+                // If an error occurs, pass the error as the error parameter and execute the below code.
+                } catch (error) {
+                    // If there is an error in the conversion process, reject the promise with the error details.
+                    reject(error);
+                }
+            // If it is already an object, pass it through without processing it.
+            } else {
+                // Resolve the promise with the ObjectID.
+                resolve(IDInput);
+            }
+        });
+    }
+
+    // Closes the database connection.
+    protected close(): Promise<void> {
+        // This is generally not needed and for proper connection and resource usage,
+        // this should not be invoked as the interface reuses connections.
+        // This is just mostly here for the test script to exit after testing.
+        return Mongoose.connection.close();
+    }
+
 }
